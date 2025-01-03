@@ -27,4 +27,13 @@ systemctl enable docker
 docker --version
 docker compose version
 
-echo "Provisionamento concluído!"
+# Copia arquivos do projeto para a máquina virtual
+cp -r /vagrant/proxy /home/vagrant/proxy
+cp -r /vagrant/app /home/vagrant/app
+cp /vagrant/docker-compose.yml /home/vagrant/docker-compose.yml
+
+# Vai para o diretório do projeto e executa o Docker Compose
+cd /home/vagrant
+docker-compose up -d
+
+echo "Provisionamento concluído com sucesso!"
