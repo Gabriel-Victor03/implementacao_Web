@@ -34,6 +34,6 @@ cp /vagrant/docker-compose.yml /home/vagrant/docker-compose.yml
 
 # Vai para o diretório do projeto e executa o Docker Compose
 cd /home/vagrant
-docker-compose up -d
+docker compose up -d
 
 echo "Provisionamento concluído com sucesso!"
