@@ -1,0 +1,21 @@
+version: "3"
+services:
+  app:
+    build:
+      context: ./app
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+  proxy:
+    build:
+      context: ./proxy
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
