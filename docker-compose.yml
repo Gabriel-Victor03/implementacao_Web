@@ -1,8 +1,9 @@
-version: "3"
+version: "3.8"
 services:
   app:
     build:
       context: ./app
+    container_name: app-container
     ports:
       - "3000:3000"
     networks:
@@ -11,6 +12,7 @@ services:
   proxy:
     build:
       context: ./proxy
+    container_name: proxy-container
     ports:
       - "80:80"
     networks:

@@ -10,6 +10,7 @@ sudo apt-get install rcconf
 #Instala o Nmap para scannear as portas
 sudo apt-get install nmap
 
+
 # Instala pacotes necessários
 sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
 
@@ -28,6 +29,7 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plu
 sudo usermod -aG docker vagrant
 
 # Habilita o Docker para iniciar automaticamente ao boot
+sudo systemctl start docker
 sudo systemctl enable docker
 
 
@@ -36,9 +38,9 @@ sudo docker --version
 sudo docker compose version
 
 # Copia arquivos do projeto para a máquina virtual
-sudo cp -R /vagrant/proxy /home/vagrant/
-sudo cp -R /vagrant/app /home/vagrant/
-sudo cp /vagrant/docker-compose.yml /home/vagrant/
+sudo cp -R /vagrant/proxy /home/vagrant/proxy
+sudo cp -R /vagrant/app /home/vagrant/app
+sudo cp /vagrant/docker-compose.yml /home/vagrant/docker-compose.yml
 
 
 
@@ -79,8 +81,15 @@ sudo chown -R vagrant:vagrant /mnt/hdbackup /mnt/fileserver
 echo "0 18 * * 5 vagrant rm -r /mnt/hdbackup/backup.tar.gz" | sudo tee -a /etc/crontab
 echo "0 19 * * 5 vagrant tar cvfz /mnt/hdbackup/backup.tar.gz /mnt/fileserver/" | sudo tee -a /etc/crontab
 
+#Instala e ativa o software de hardening fail2ban
+sudo apt install -y fail2ban
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+sudo systemctl status fail2ban
+
 # Vai para o diretório do projeto e executa o Docker Compose
 sudo cd /home/vagrant
 sudo docker compose up -d
 
 echo "Provisionamento concluído com sucesso!"
+
