@@ -2,7 +2,6 @@
 
 # Atualiza o sistema operacional
 sudo apt-get update
-# apt-get upgrade -y
 
 #Instala o front-end rconfig para ajudar a controlar os serviços iniciados
 sudo apt-get install rcconf
@@ -10,20 +9,16 @@ sudo apt-get install rcconf
 #Instala o Nmap para scannear as portas
 sudo apt-get install nmap
 
-
 # Instala pacotes necessários
 sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
 
 # Adiciona o repositório do Docker
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-
-# Atualiza novamente os pacotes para incluir o repositório do Docker
 sudo apt-get update
 
 # Instala o Docker e o Docker Compose
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
 
 # Adiciona o usuário 'vagrant' ao grupo docker (para evitar uso de 'sudo' com Docker)
 sudo usermod -aG docker vagrant
@@ -31,7 +26,6 @@ sudo usermod -aG docker vagrant
 # Habilita o Docker para iniciar automaticamente ao boot
 sudo systemctl start docker
 sudo systemctl enable docker
-
 
 # Confirma instalação do Docker e Docker Compose
 sudo docker --version
@@ -41,8 +35,6 @@ sudo docker compose version
 sudo cp -R /vagrant/proxy /home/vagrant/proxy
 sudo cp -R /vagrant/app /home/vagrant/app
 sudo cp /vagrant/docker-compose.yml /home/vagrant/docker-compose.yml
-
-
 
 # Configura o firewall UFW para negar entrada
 sudo ufw default deny incoming
