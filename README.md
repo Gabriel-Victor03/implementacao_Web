@@ -82,4 +82,81 @@ Execute o comando abaixo para iniciar a máquina virtual com o Vagrant:
 ```
 vagrant up
 ```
-## 
+## Provisionamento Automatizado:
+- Instalação de pacotes básicos e utilitários (rcconf, nmap).
+- Configuração do Docker e Docker Compose:
+- Repositório oficial adicionado.
+
+## Serviços e Regras Implementadas nos Containers
+- Nginx:
+   - `Proxy reverso`: Redireciona requisições recebidas na porta 80 para o serviço da aplicação no app-container (porta 3000).
+- Docker:
+   - Configurada como uma rede do tipo bridge para permitir comunicação entre os containers.
+
+## Regras de Segurança:
+- Firewall (ufw):
+   - Bloqueio de todas as conexões de entrada, exceto:
+      - Porta 22 (SSH) para gerenciamento.
+      - Porta 80 (HTTP) e 443 (HTTPS) para o proxy e aplicação.
+   - Permissão para todas as conexões de saída.
+- Fail2Ban (Hardening):
+   - Proteção contra tentativas de login inválidas ou ataques de força bruta em serviços como SSH.
+   - Ativado e configurado para monitorar tentativas de acesso maliciosas.
+- Tarefas Cron (Hardening):
+   - Atualização automatizada do sistema operacional.
+   - Backup semanal de arquivos na pasta /mnt/fileserver para /mnt/hdbackup.
+
+## Fluxo de Comunicação e Uso de Containers
+- O proxy reverso (proxy-container):
+   - Recebe requisições HTTP na porta 80.
+   - Encaminha as requisições para o serviço da aplicação (app-container) na porta 3000.
+- A aplicação (app-container):
+   - Serve conteúdo estático (HTML, CSS, JS, imagens) diretamente.
+   - Comunica-se exclusivamente com o proxy através da rede app-network.
+
+## Testes dos serviços
+### Testando Docker e os Containers
+- Versão e funcionamento
+```
+docker --version
+systemctl status docker
+docker ps
+```
+- Logs dos containers
+```
+docker logs proxy-container
+docker logs app-container
+```
+### Testando Firewall (ufw)
+- Status e regras ativas:
+```
+sudo ufw status verbose
+```
+- Portas:
+```
+curl http://localhost:80
+ssh vagrant@192.168.1.100
+
+curl http://localhost:8081
+```
+### Fail2Ban
+- Status
+```
+sudo systemctl status fail2ban
+
+```
+### Tarefas Cron
+- Status e listar agendamentos
+```
+sudo systemctl status cron
+sudo crontab -l
+```
+### Uso do Nmap
+- Varredura
+```
+sudo nmap -sT localhost
+```
+- Verificar portas (exemplo)
+```
+sudo nmap -p 80,3000,22 localhost
+```
