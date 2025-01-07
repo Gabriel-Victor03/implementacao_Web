@@ -3,6 +3,9 @@
 # Atualiza o sistema operacional
 sudo apt-get update
 
+sudo systemctl stop systemd-resolved
+sudo systemctl disable systemd-resolved
+sudo rm -f /etc/resolv.conf
 sudo echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf > /dev/null
 
 #Instala o front-end rconfig para ajudar a controlar os serviços iniciados
