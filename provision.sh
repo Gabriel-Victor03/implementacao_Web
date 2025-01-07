@@ -3,11 +3,13 @@
 # Atualiza o sistema operacional
 sudo apt-get update
 
+sudo echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf > /dev/null
+
 #Instala o front-end rconfig para ajudar a controlar os serviços iniciados
-sudo apt-get install rcconf
+sudo apt-get install rcconf -y
 
 #Instala o Nmap para scannear as portas
-sudo apt-get install nmap
+sudo apt-get install nmap -y
 
 # Instala pacotes necessários
 sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
